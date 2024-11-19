@@ -14,6 +14,14 @@ async function handleRequest(request) {
       }
     });
   } 
+  if(pathname === '/favicon.ico') {
+    return new Response('', {
+      status: 200,
+      headers: {
+        'Content-Type': 'image/png'
+      }
+    });
+  }
   if(pathname === '/robots.txt') {
     return new Response('User-agent: *\nDisallow: /', {
       status: 200,

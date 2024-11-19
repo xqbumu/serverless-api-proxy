@@ -1,5 +1,10 @@
-name = "serverless-api-proxy"
+name = "sap"
 main = "src/_worker.js"
 workers_dev = true
-compatibility_date = "2024-10-01"
-# compatibility_flags = ["nodejs_compat"]
+compatibility_date = "2024-11-11"
+# compatibility_flags = ["nodejs_compat_v2"]
+
+# wrangler.toml (wrangler v3.79.0^)
+[observability]
+enabled = true
+head_sampling_rate = 0.1 # 10% of requests are logged
