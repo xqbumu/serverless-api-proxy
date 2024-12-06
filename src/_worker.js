@@ -4,6 +4,7 @@ addEventListener('fetch', event => {
 
 async function handleRequest(request) {
   const url = new URL(request.url);
+  const queryParams = url.searchParams;
   const pathname = url.pathname;
 
   if (pathname === '/' || pathname === '/index.html') {
@@ -52,7 +53,8 @@ async function handleRequest(request) {
   const [prefix, rest] = extractPrefixAndRest(pathname, Object.keys(apiMapping));
   if (prefix) {
     const baseApiUrl = apiMapping[prefix];
-    const targetUrl = `${baseApiUrl}${rest}`;
+    const targetUrl = new URL(`${baseApiUrl}${rest}`);
+    queryParams.forEach((value, key) => targetUrl.searchParams.append(key, value));
 
     try {
       const newRequest = new Request(targetUrl, {
@@ -68,6 +70,8 @@ async function handleRequest(request) {
       return new Response('Internal Server Error', { status: 500 });
     }
   }
+
+  return new Response('Not Found', { status: 404 });
 }
 
 function extractPrefixAndRest(pathname, prefixes) {
